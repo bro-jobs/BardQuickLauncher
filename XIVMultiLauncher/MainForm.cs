@@ -22,6 +22,7 @@ public partial class MainForm : Form
     {
         _config = _configService.Load();
         txtXIVLauncherPath.Text = _config.XIVLauncherPath;
+        txtTemplatePath.Text = _config.TemplateProfilePath ?? "";
         numSleepTime.Value = _config.SleepTimeSeconds;
         chkKillMutants.Checked = _config.AutoKillMutants;
         RefreshProfileList();
@@ -30,6 +31,8 @@ public partial class MainForm : Form
     private void SaveConfig()
     {
         _config.XIVLauncherPath = txtXIVLauncherPath.Text;
+        _config.TemplateProfilePath = string.IsNullOrWhiteSpace(txtTemplatePath.Text)
+            ? null : txtTemplatePath.Text;
         _config.SleepTimeSeconds = (int)numSleepTime.Value;
         _config.AutoKillMutants = chkKillMutants.Checked;
         _configService.Save(_config);
@@ -84,11 +87,13 @@ public partial class MainForm : Form
         if (!Directory.Exists(profile.RoamingPath))
             return "Missing folder";
 
+        if (!_profileService.HasLauncherConfig(profile.RoamingPath))
+            return "No launcher cfg";
+
         if (!_profileService.HasAutoLoginConfig(profile.RoamingPath))
         {
             if (profile.DataCenterId > 0 && profile.WorldId > 0)
                 return "No AutoLogin";
-            return "OK";
         }
 
         return "OK";
@@ -105,6 +110,44 @@ public partial class MainForm : Form
         if (dialog.ShowDialog() == DialogResult.OK)
         {
             txtXIVLauncherPath.Text = dialog.FileName;
+            SaveConfig();
+        }
+    }
+
+    private void btnBrowseTemplate_Click(object? sender, EventArgs e)
+    {
+        using var dialog = new FolderBrowserDialog
+        {
+            Description = "Select your main account's XIVLauncher folder (contains launcherConfigV3.json)",
+            UseDescriptionForTitle = true
+        };
+
+        // Default to standard XIVLauncher path
+        var defaultPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "XIVLauncher");
+        if (Directory.Exists(defaultPath))
+            dialog.SelectedPath = defaultPath;
+
+        if (dialog.ShowDialog() == DialogResult.OK)
+        {
+            // Validate it looks like an XIVLauncher folder
+            var launcherConfig = Path.Combine(dialog.SelectedPath, "launcherConfigV3.json");
+            if (!File.Exists(launcherConfig))
+            {
+                var result = MessageBox.Show(
+                    "This folder doesn't contain launcherConfigV3.json.\n" +
+                    "New profiles won't skip the first-time setup.\n\n" +
+                    "Use this folder anyway?",
+                    "Warning",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning);
+
+                if (result != DialogResult.Yes)
+                    return;
+            }
+
+            txtTemplatePath.Text = dialog.SelectedPath;
             SaveConfig();
         }
     }

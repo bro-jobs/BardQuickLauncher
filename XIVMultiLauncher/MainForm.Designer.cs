@@ -29,7 +29,7 @@ partial class MainForm
         grpSettings = new GroupBox();
         grpSettings.Text = "Settings";
         grpSettings.Location = new Point(12, 12);
-        grpSettings.Size = new Size(560, 105);
+        grpSettings.Size = new Size(560, 130);
         grpSettings.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
         lblPath = new Label();
@@ -50,13 +50,32 @@ partial class MainForm
         btnBrowse.Anchor = AnchorStyles.Top | AnchorStyles.Right;
         btnBrowse.Click += btnBrowse_Click;
 
+        lblTemplate = new Label();
+        lblTemplate.Text = "Template Folder:";
+        lblTemplate.Location = new Point(10, 52);
+        lblTemplate.AutoSize = true;
+
+        txtTemplatePath = new TextBox();
+        txtTemplatePath.Location = new Point(120, 49);
+        txtTemplatePath.Size = new Size(350, 23);
+        txtTemplatePath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        txtTemplatePath.ReadOnly = true;
+        txtTemplatePath.PlaceholderText = "(Your main account's XIVLauncher folder)";
+
+        btnBrowseTemplate = new Button();
+        btnBrowseTemplate.Text = "Browse...";
+        btnBrowseTemplate.Location = new Point(476, 48);
+        btnBrowseTemplate.Size = new Size(75, 25);
+        btnBrowseTemplate.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        btnBrowseTemplate.Click += btnBrowseTemplate_Click;
+
         lblSleep = new Label();
         lblSleep.Text = "Delay between launches:";
-        lblSleep.Location = new Point(10, 52);
+        lblSleep.Location = new Point(10, 79);
         lblSleep.AutoSize = true;
 
         numSleepTime = new NumericUpDown();
-        numSleepTime.Location = new Point(160, 50);
+        numSleepTime.Location = new Point(160, 77);
         numSleepTime.Size = new Size(60, 23);
         numSleepTime.Minimum = 1;
         numSleepTime.Maximum = 60;
@@ -65,25 +84,28 @@ partial class MainForm
 
         lblSeconds = new Label();
         lblSeconds.Text = "seconds";
-        lblSeconds.Location = new Point(226, 52);
+        lblSeconds.Location = new Point(226, 79);
         lblSeconds.AutoSize = true;
 
         chkKillMutants = new CheckBox();
         chkKillMutants.Text = "Auto-kill mutants (allows >2 instances)";
-        chkKillMutants.Location = new Point(10, 78);
+        chkKillMutants.Location = new Point(10, 103);
         chkKillMutants.AutoSize = true;
         chkKillMutants.Checked = true;
         chkKillMutants.CheckedChanged += chkKillMutants_CheckedChanged;
 
         btnKillMutants = new Button();
         btnKillMutants.Text = "Kill Mutants Now";
-        btnKillMutants.Location = new Point(280, 74);
+        btnKillMutants.Location = new Point(280, 99);
         btnKillMutants.Size = new Size(120, 25);
         btnKillMutants.Click += btnKillMutants_Click;
 
         grpSettings.Controls.Add(lblPath);
         grpSettings.Controls.Add(txtXIVLauncherPath);
         grpSettings.Controls.Add(btnBrowse);
+        grpSettings.Controls.Add(lblTemplate);
+        grpSettings.Controls.Add(txtTemplatePath);
+        grpSettings.Controls.Add(btnBrowseTemplate);
         grpSettings.Controls.Add(lblSleep);
         grpSettings.Controls.Add(numSleepTime);
         grpSettings.Controls.Add(lblSeconds);
@@ -93,8 +115,8 @@ partial class MainForm
         // Profiles group
         grpProfiles = new GroupBox();
         grpProfiles.Text = "Profiles";
-        grpProfiles.Location = new Point(12, 123);
-        grpProfiles.Size = new Size(560, 255);
+        grpProfiles.Location = new Point(12, 148);
+        grpProfiles.Size = new Size(560, 230);
         grpProfiles.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 
         lstProfiles = new ListView();
@@ -195,6 +217,9 @@ partial class MainForm
     private Label lblPath;
     private TextBox txtXIVLauncherPath;
     private Button btnBrowse;
+    private Label lblTemplate;
+    private TextBox txtTemplatePath;
+    private Button btnBrowseTemplate;
     private Label lblSleep;
     private NumericUpDown numSleepTime;
     private Label lblSeconds;

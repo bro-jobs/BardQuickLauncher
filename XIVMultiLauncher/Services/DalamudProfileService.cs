@@ -52,12 +52,23 @@ public class DalamudProfileService
     /// </summary>
     public void CopyProfileContents(string sourcePath, string destPath, bool excludeAutoLogin = true)
     {
+        // Copy XIVLauncher config (required to skip first-time setup)
+        // This contains GamePath and other launcher settings
+        var launcherConfig = Path.Combine(sourcePath, "launcherConfigV3.json");
+        if (File.Exists(launcherConfig))
+        {
+            File.Copy(launcherConfig, Path.Combine(destPath, "launcherConfigV3.json"), overwrite: true);
+        }
+
         // Copy dalamudConfig.json if it exists
         var dalamudConfig = Path.Combine(sourcePath, "dalamudConfig.json");
         if (File.Exists(dalamudConfig))
         {
             File.Copy(dalamudConfig, Path.Combine(destPath, "dalamudConfig.json"), overwrite: true);
         }
+
+        // Copy accountlist.json (saved accounts) - but we'll likely want different accounts per profile
+        // Skip this for now as each profile should have its own account
 
         // Copy pluginConfigs folder
         var sourcePluginConfigs = Path.Combine(sourcePath, "pluginConfigs");
@@ -120,6 +131,15 @@ public class DalamudProfileService
 
         return Directory.Exists(profilePath) &&
                Directory.Exists(Path.Combine(profilePath, "pluginConfigs"));
+    }
+
+    /// <summary>
+    /// Checks if XIVLauncher config exists (required to skip first-time setup).
+    /// </summary>
+    public bool HasLauncherConfig(string profilePath)
+    {
+        var configPath = Path.Combine(profilePath, "launcherConfigV3.json");
+        return File.Exists(configPath);
     }
 
     /// <summary>

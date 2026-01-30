@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("XIVMultiLauncher")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ac9c9187e26db7c7d869a7d43f49e32661e6f800")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f3571926acdda2195166f83a92cdc3dace309d54")]
 [assembly: System.Reflection.AssemblyProductAttribute("XIVMultiLauncher")]
 [assembly: System.Reflection.AssemblyTitleAttribute("XIVMultiLauncher")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
