@@ -47,9 +47,9 @@ public static class GameData
         new(51, "Ultima", 2),
         new(59, "Ifrit", 2),
         new(69, "Bahamut", 2),
-        new(76, "Durandal", 2),
-        new(92, "Ridill", 2),
-        new(98, "Tiamat", 2),
+        new(76, "Tiamat", 2),
+        new(92, "Durandal", 2),
+        new(98, "Ridill", 2),
 
         // Mana (3)
         new(23, "Asura", 3),
@@ -69,7 +69,7 @@ public static class GameData
         new(32, "Zeromus", 10),
         new(52, "Valefor", 10),
         new(60, "Ramuh", 10),
-        new(71, "Mandragora", 10),
+        new(82, "Mandragora", 10),
 
         // Aether (4)
         new(40, "Jenova", 4),
@@ -86,11 +86,10 @@ public static class GameData
         new(53, "Exodus", 5),
         new(55, "Lamia", 5),
         new(64, "Leviathan", 5),
-        new(77, "Excalibur", 5),
-        new(78, "Hyperion", 5),
-        new(93, "Ragnarok", 5), // Note: There's also a Ragnarok in EU
-        new(95, "Ultros", 5),
-        new(75, "Behemoth", 5),
+        new(77, "Ultros", 5),
+        new(78, "Behemoth", 5),
+        new(93, "Excalibur", 5),
+        new(95, "Hyperion", 5),
 
         // Crystal (8)
         new(34, "Brynhildr", 8),
@@ -98,8 +97,8 @@ public static class GameData
         new(41, "Zalera", 8),
         new(62, "Diabolos", 8),
         new(74, "Coeurl", 8),
-        new(81, "Malboro", 8),
-        new(82, "Goblin", 8),
+        new(75, "Malboro", 8),
+        new(81, "Goblin", 8),
         new(91, "Balmung", 8),
 
         // Dynamis (11)
@@ -133,7 +132,14 @@ public static class GameData
         new(403, "Raiden", 7),
 
         // Shadow (12)
-        // Add worlds when available
+        new(412, "Titania", 12),
+        new(413, "Innocence", 12),
+        new(414, "Pixie", 12),
+        new(415, "Tycoon", 12),
+        new(416, "Wyvern", 12),
+        new(417, "Lakshmi", 12),
+        new(418, "Eden", 12),
+        new(419, "Syldra", 12),
 
         // Materia (9)
         new(21, "Ravana", 9),
