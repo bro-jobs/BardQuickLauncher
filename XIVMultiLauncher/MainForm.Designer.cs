@@ -21,8 +21,8 @@ partial class MainForm
 
         // Form settings
         this.Text = "XIV Multi Launcher";
-        this.Size = new System.Drawing.Size(600, 500);
-        this.MinimumSize = new System.Drawing.Size(500, 400);
+        this.Size = new System.Drawing.Size(600, 540);
+        this.MinimumSize = new System.Drawing.Size(550, 480);
         this.StartPosition = FormStartPosition.CenterScreen;
 
         // Settings group
@@ -116,12 +116,12 @@ partial class MainForm
         grpProfiles = new GroupBox();
         grpProfiles.Text = "Profiles";
         grpProfiles.Location = new Point(12, 148);
-        grpProfiles.Size = new Size(560, 230);
+        grpProfiles.Size = new Size(560, 260);
         grpProfiles.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 
         lstProfiles = new ListView();
         lstProfiles.Location = new Point(10, 22);
-        lstProfiles.Size = new Size(450, 210);
+        lstProfiles.Size = new Size(450, 190);
         lstProfiles.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
         lstProfiles.View = View.Details;
         lstProfiles.FullRowSelect = true;
@@ -171,14 +171,14 @@ partial class MainForm
 
         btnLaunchSelected = new Button();
         btnLaunchSelected.Text = "Launch";
-        btnLaunchSelected.Location = new Point(10, 240);
+        btnLaunchSelected.Location = new Point(10, 220);
         btnLaunchSelected.Size = new Size(100, 30);
         btnLaunchSelected.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
         btnLaunchSelected.Click += btnLaunchSelected_Click;
 
         btnLaunchAll = new Button();
         btnLaunchAll.Text = "Launch All";
-        btnLaunchAll.Location = new Point(360, 240);
+        btnLaunchAll.Location = new Point(360, 220);
         btnLaunchAll.Size = new Size(100, 30);
         btnLaunchAll.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
         btnLaunchAll.Click += btnLaunchAll_Click;
@@ -194,13 +194,13 @@ partial class MainForm
 
         // Status bar
         progressBar = new ProgressBar();
-        progressBar.Location = new Point(12, 390);
-        progressBar.Size = new Size(450, 23);
+        progressBar.Location = new Point(12, 420);
+        progressBar.Size = new Size(560, 23);
         progressBar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 
         lblStatus = new Label();
         lblStatus.Text = "Ready";
-        lblStatus.Location = new Point(12, 420);
+        lblStatus.Location = new Point(12, 450);
         lblStatus.Size = new Size(560, 20);
         lblStatus.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 
