@@ -52,42 +52,79 @@ public class DalamudProfileService
     /// </summary>
     public void CopyProfileContents(string sourcePath, string destPath, bool excludeAutoLogin = true)
     {
-        // Copy XIVLauncher config (required to skip first-time setup)
-        // This contains GamePath and other launcher settings
-        var launcherConfig = Path.Combine(sourcePath, "launcherConfigV3.json");
-        if (File.Exists(launcherConfig))
+        // Top-level files to copy
+        string[] topLevelFiles = {
+            "launcherConfigV3.json",  // XIVLauncher config (required to skip first-time setup)
+            "dalamudConfig.json",      // Dalamud settings
+            "dalamudUI.ini",           // Dalamud window positions
+            "dalamudVfs.db"            // Plugin collections and other info
+        };
+
+        foreach (var fileName in topLevelFiles)
         {
-            File.Copy(launcherConfig, Path.Combine(destPath, "launcherConfigV3.json"), overwrite: true);
+            var sourceFile = Path.Combine(sourcePath, fileName);
+            if (File.Exists(sourceFile))
+            {
+                File.Copy(sourceFile, Path.Combine(destPath, fileName), overwrite: true);
+            }
         }
 
-        // Copy dalamudConfig.json if it exists
-        var dalamudConfig = Path.Combine(sourcePath, "dalamudConfig.json");
-        if (File.Exists(dalamudConfig))
+        // Folders to copy recursively
+        string[] foldersToRecursivelyCopy = {
+            "installedPlugins",  // Installed plugin DLLs
+            "addon"              // Dalamud hooks and other addons
+        };
+
+        foreach (var folderName in foldersToRecursivelyCopy)
         {
-            File.Copy(dalamudConfig, Path.Combine(destPath, "dalamudConfig.json"), overwrite: true);
+            var sourceFolder = Path.Combine(sourcePath, folderName);
+            var destFolder = Path.Combine(destPath, folderName);
+
+            if (Directory.Exists(sourceFolder))
+            {
+                CopyDirectoryRecursive(sourceFolder, destFolder);
+            }
         }
 
-        // Copy accountlist.json (saved accounts) - but we'll likely want different accounts per profile
-        // Skip this for now as each profile should have its own account
-
-        // Copy pluginConfigs folder
+        // Copy pluginConfigs folder (with AutoLogin exclusion option)
         var sourcePluginConfigs = Path.Combine(sourcePath, "pluginConfigs");
         var destPluginConfigs = Path.Combine(destPath, "pluginConfigs");
 
         if (Directory.Exists(sourcePluginConfigs))
         {
-            Directory.CreateDirectory(destPluginConfigs);
-
-            foreach (var file in Directory.GetFiles(sourcePluginConfigs, "*.json"))
+            CopyDirectoryRecursive(sourcePluginConfigs, destPluginConfigs, excludeFile: filePath =>
             {
-                var fileName = Path.GetFileName(file);
+                if (!excludeAutoLogin) return false;
+                var fileName = Path.GetFileName(filePath);
+                return fileName.Equals("AutoLogin.json", StringComparison.OrdinalIgnoreCase);
+            });
+        }
+    }
 
-                // Skip AutoLogin config if requested
-                if (excludeAutoLogin && fileName.Equals("AutoLogin.json", StringComparison.OrdinalIgnoreCase))
-                    continue;
+    /// <summary>
+    /// Recursively copies a directory and all its contents.
+    /// </summary>
+    private void CopyDirectoryRecursive(string sourceDir, string destDir, Func<string, bool>? excludeFile = null)
+    {
+        Directory.CreateDirectory(destDir);
 
-                File.Copy(file, Path.Combine(destPluginConfigs, fileName), overwrite: true);
-            }
+        // Copy all files
+        foreach (var file in Directory.GetFiles(sourceDir))
+        {
+            if (excludeFile?.Invoke(file) == true)
+                continue;
+
+            var fileName = Path.GetFileName(file);
+            var destFile = Path.Combine(destDir, fileName);
+            File.Copy(file, destFile, overwrite: true);
+        }
+
+        // Recursively copy subdirectories
+        foreach (var subDir in Directory.GetDirectories(sourceDir))
+        {
+            var dirName = Path.GetFileName(subDir);
+            var destSubDir = Path.Combine(destDir, dirName);
+            CopyDirectoryRecursive(subDir, destSubDir, excludeFile);
         }
     }
 

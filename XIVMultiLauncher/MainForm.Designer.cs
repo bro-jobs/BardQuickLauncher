@@ -169,6 +169,20 @@ partial class MainForm
         btnMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
         btnMoveDown.Click += btnMoveDown_Click;
 
+        btnSyncProfile = new Button();
+        btnSyncProfile.Text = "Sync";
+        btnSyncProfile.Location = new Point(120, 220);
+        btnSyncProfile.Size = new Size(100, 30);
+        btnSyncProfile.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+        btnSyncProfile.Click += btnSyncProfile_Click;
+
+        btnSyncAll = new Button();
+        btnSyncAll.Text = "Sync All";
+        btnSyncAll.Location = new Point(230, 220);
+        btnSyncAll.Size = new Size(100, 30);
+        btnSyncAll.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+        btnSyncAll.Click += btnSyncAll_Click;
+
         btnLaunchSelected = new Button();
         btnLaunchSelected.Text = "Launch";
         btnLaunchSelected.Location = new Point(10, 220);
@@ -190,6 +204,8 @@ partial class MainForm
         grpProfiles.Controls.Add(btnMoveUp);
         grpProfiles.Controls.Add(btnMoveDown);
         grpProfiles.Controls.Add(btnLaunchSelected);
+        grpProfiles.Controls.Add(btnSyncProfile);
+        grpProfiles.Controls.Add(btnSyncAll);
         grpProfiles.Controls.Add(btnLaunchAll);
 
         // Status bar
@@ -234,6 +250,8 @@ partial class MainForm
     private Button btnMoveUp;
     private Button btnMoveDown;
     private Button btnLaunchSelected;
+    private Button btnSyncProfile;
+    private Button btnSyncAll;
     private Button btnLaunchAll;
 
     private ProgressBar progressBar;

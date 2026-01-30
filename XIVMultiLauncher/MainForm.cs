@@ -257,7 +257,9 @@ public partial class MainForm : Form
                 progressBar.Value = i + 1;
 
                 // Kill mutants after launch to allow more instances
-                if (_config.AutoKillMutants && i < _config.Profiles.Count - 1)
+                // FFXIV has a 2-instance limit, so we need to kill mutants starting from the 2nd instance (i >= 1)
+                // to allow the 3rd, 4th, 5th, etc. instances to launch
+                if (_config.AutoKillMutants && i >= 1 && i < _config.Profiles.Count - 1)
                 {
                     // Wait a moment for the game to create its mutants
                     await Task.Delay(2000);
@@ -420,5 +422,128 @@ public partial class MainForm : Form
     private void lstProfiles_DoubleClick(object? sender, EventArgs e)
     {
         btnEditProfile_Click(sender, e);
+    }
+
+    private void btnSyncProfile_Click(object? sender, EventArgs e)
+    {
+        if (lstProfiles.SelectedItems.Count == 0)
+        {
+            MessageBox.Show("Please select a profile to sync.", "Info",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
+        }
+
+        if (string.IsNullOrEmpty(_config.TemplateProfilePath) ||
+            !Directory.Exists(_config.TemplateProfilePath))
+        {
+            MessageBox.Show("Template folder is not set or doesn't exist.\n" +
+                "Please configure it in Settings first.", "Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+
+        var profile = (Profile)lstProfiles.SelectedItems[0].Tag!;
+
+        if (string.IsNullOrEmpty(profile.RoamingPath))
+        {
+            MessageBox.Show($"Profile '{profile.DisplayName}' has no roaming path configured.",
+                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+
+        try
+        {
+            lblStatus.Text = $"Syncing {profile.DisplayName}...";
+            _profileService.CopyProfileContents(_config.TemplateProfilePath, profile.RoamingPath, excludeAutoLogin: true);
+
+            // Re-save AutoLogin config if character is configured
+            if (profile.DataCenterId > 0 && profile.WorldId > 0)
+            {
+                _profileService.SaveAutoLoginConfig(profile.RoamingPath, profile.DataCenterId,
+                    profile.WorldId, profile.CharacterSlot);
+            }
+
+            lblStatus.Text = $"Synced {profile.DisplayName}!";
+            RefreshProfileList();
+            MessageBox.Show($"Synced profile '{profile.DisplayName}' from template.",
+                "Done", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        catch (Exception ex)
+        {
+            lblStatus.Text = "Sync failed.";
+            MessageBox.Show($"Failed to sync profile:\n{ex.Message}",
+                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+
+    private void btnSyncAll_Click(object? sender, EventArgs e)
+    {
+        if (_config.Profiles.Count == 0)
+        {
+            MessageBox.Show("No profiles configured.", "Info",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return;
+        }
+
+        if (string.IsNullOrEmpty(_config.TemplateProfilePath) ||
+            !Directory.Exists(_config.TemplateProfilePath))
+        {
+            MessageBox.Show("Template folder is not set or doesn't exist.\n" +
+                "Please configure it in Settings first.", "Error",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+
+        var result = MessageBox.Show(
+            $"Sync all {_config.Profiles.Count} profile(s) from the template folder?\n\n" +
+            "This will overwrite plugin configs (except AutoLogin) in all profiles.",
+            "Confirm Sync All",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question);
+
+        if (result != DialogResult.Yes) return;
+
+        var successCount = 0;
+        var failCount = 0;
+
+        foreach (var profile in _config.Profiles)
+        {
+            if (string.IsNullOrEmpty(profile.RoamingPath))
+            {
+                failCount++;
+                continue;
+            }
+
+            try
+            {
+                lblStatus.Text = $"Syncing {profile.DisplayName}...";
+                Application.DoEvents(); // Update UI
+
+                _profileService.CopyProfileContents(_config.TemplateProfilePath, profile.RoamingPath, excludeAutoLogin: true);
+
+                // Re-save AutoLogin config if character is configured
+                if (profile.DataCenterId > 0 && profile.WorldId > 0)
+                {
+                    _profileService.SaveAutoLoginConfig(profile.RoamingPath, profile.DataCenterId,
+                        profile.WorldId, profile.CharacterSlot);
+                }
+
+                successCount++;
+            }
+            catch
+            {
+                failCount++;
+            }
+        }
+
+        RefreshProfileList();
+        lblStatus.Text = $"Synced {successCount} profile(s)";
+
+        var message = $"Synced {successCount} profile(s).";
+        if (failCount > 0)
+            message += $"\n{failCount} profile(s) failed or had no path.";
+
+        MessageBox.Show(message, "Sync Complete",
+            MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 }
