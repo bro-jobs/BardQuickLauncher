@@ -29,7 +29,7 @@ partial class MainForm
         grpSettings = new GroupBox();
         grpSettings.Text = "Settings";
         grpSettings.Location = new Point(12, 12);
-        grpSettings.Size = new Size(560, 80);
+        grpSettings.Size = new Size(560, 105);
         grpSettings.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
         lblPath = new Label();
@@ -68,18 +68,33 @@ partial class MainForm
         lblSeconds.Location = new Point(226, 52);
         lblSeconds.AutoSize = true;
 
+        chkKillMutants = new CheckBox();
+        chkKillMutants.Text = "Auto-kill mutants (allows >2 instances)";
+        chkKillMutants.Location = new Point(10, 78);
+        chkKillMutants.AutoSize = true;
+        chkKillMutants.Checked = true;
+        chkKillMutants.CheckedChanged += chkKillMutants_CheckedChanged;
+
+        btnKillMutants = new Button();
+        btnKillMutants.Text = "Kill Mutants Now";
+        btnKillMutants.Location = new Point(280, 74);
+        btnKillMutants.Size = new Size(120, 25);
+        btnKillMutants.Click += btnKillMutants_Click;
+
         grpSettings.Controls.Add(lblPath);
         grpSettings.Controls.Add(txtXIVLauncherPath);
         grpSettings.Controls.Add(btnBrowse);
         grpSettings.Controls.Add(lblSleep);
         grpSettings.Controls.Add(numSleepTime);
         grpSettings.Controls.Add(lblSeconds);
+        grpSettings.Controls.Add(chkKillMutants);
+        grpSettings.Controls.Add(btnKillMutants);
 
         // Profiles group
         grpProfiles = new GroupBox();
         grpProfiles.Text = "Profiles";
-        grpProfiles.Location = new Point(12, 98);
-        grpProfiles.Size = new Size(560, 280);
+        grpProfiles.Location = new Point(12, 123);
+        grpProfiles.Size = new Size(560, 255);
         grpProfiles.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
 
         lstProfiles = new ListView();
@@ -89,11 +104,12 @@ partial class MainForm
         lstProfiles.View = View.Details;
         lstProfiles.FullRowSelect = true;
         lstProfiles.GridLines = true;
-        lstProfiles.Columns.Add("Display Name", 140);
-        lstProfiles.Columns.Add("Account", 120);
-        lstProfiles.Columns.Add("Main", 45);
-        lstProfiles.Columns.Add("Steam", 50);
-        lstProfiles.Columns.Add("OTP", 45);
+        lstProfiles.Columns.Add("Display Name", 120);
+        lstProfiles.Columns.Add("Account", 100);
+        lstProfiles.Columns.Add("Main", 40);
+        lstProfiles.Columns.Add("Steam", 45);
+        lstProfiles.Columns.Add("OTP", 40);
+        lstProfiles.Columns.Add("Status", 80);
         lstProfiles.DoubleClick += lstProfiles_DoubleClick;
 
         btnAddProfile = new Button();
@@ -182,6 +198,8 @@ partial class MainForm
     private Label lblSleep;
     private NumericUpDown numSleepTime;
     private Label lblSeconds;
+    private CheckBox chkKillMutants;
+    private Button btnKillMutants;
 
     private GroupBox grpProfiles;
     private ListView lstProfiles;

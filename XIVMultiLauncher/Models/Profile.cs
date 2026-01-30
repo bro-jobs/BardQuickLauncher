@@ -10,6 +10,11 @@ public class Profile
     public string? RoamingPath { get; set; }
     public string? OtpProvider { get; set; } // e.g., "1password:ProfileName"
 
+    // AutoLogin character selection
+    public uint DataCenterId { get; set; }
+    public uint WorldId { get; set; }
+    public uint CharacterSlot { get; set; } // 0-7
+
     /// <summary>
     /// Gets the account ID in XIVLauncher format: {username}-{useOtp}-{isSteam}
     /// </summary>

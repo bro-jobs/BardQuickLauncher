@@ -6,6 +6,7 @@ A Windows GUI application for launching multiple XIVLauncher accounts sequential
 
 - Configure multiple FFXIV account profiles
 - Launch all accounts with a single click
+- **Auto-kill mutants** - Automatically bypasses FFXIV's 2-instance limit
 - Configurable delay between launches
 - Support for Steam accounts
 - OTP (2FA) support via 1Password CLI
@@ -16,6 +17,25 @@ A Windows GUI application for launching multiple XIVLauncher accounts sequential
 
 - Windows 10/11 (x64)
 - XIVLauncher installed with accounts configured and "Auto Login" enabled for each account
+- **May require running as Administrator** for the mutant killer to work on some systems
+
+## Multi-Instance Support
+
+FFXIV normally limits you to 2 game instances. This tool includes a **mutant killer** that removes this restriction:
+
+- **Auto-kill mutants** checkbox: When enabled, automatically kills FFXIV mutant handles after each launch
+- **Kill Mutants Now** button: Manually kill mutants if you've already launched games
+
+### How it works
+
+FFXIV creates named mutex objects (`ffxiv_game00`, `ffxiv_game01`, etc.) to enforce the instance limit. This tool uses Windows APIs to enumerate and close these handles, allowing unlimited instances.
+
+### Troubleshooting
+
+If the mutant killer doesn't work:
+1. Try running XIVMultiLauncher as Administrator
+2. Make sure antivirus isn't blocking the handle operations
+3. Use the "Kill Mutants Now" button after games have fully launched
 
 ## Installation
 

@@ -1,3 +1,4 @@
+using XIVMultiLauncher.Data;
 using XIVMultiLauncher.Models;
 using XIVMultiLauncher.Services;
 
@@ -7,6 +8,8 @@ public partial class MainForm : Form
 {
     private readonly ConfigService _configService = new();
     private readonly LauncherService _launcherService = new();
+    private readonly MutantKillerService _mutantKillerService = new();
+    private readonly DalamudProfileService _profileService = new();
     private AppConfig _config = new();
 
     public MainForm()
@@ -20,6 +23,7 @@ public partial class MainForm : Form
         _config = _configService.Load();
         txtXIVLauncherPath.Text = _config.XIVLauncherPath;
         numSleepTime.Value = _config.SleepTimeSeconds;
+        chkKillMutants.Checked = _config.AutoKillMutants;
         RefreshProfileList();
     }
 
@@ -27,12 +31,15 @@ public partial class MainForm : Form
     {
         _config.XIVLauncherPath = txtXIVLauncherPath.Text;
         _config.SleepTimeSeconds = (int)numSleepTime.Value;
+        _config.AutoKillMutants = chkKillMutants.Checked;
         _configService.Save(_config);
     }
 
     private void RefreshProfileList()
     {
         lstProfiles.Items.Clear();
+        var hasWarnings = false;
+
         foreach (var profile in _config.Profiles)
         {
             var item = new ListViewItem(profile.DisplayName);
@@ -40,9 +47,51 @@ public partial class MainForm : Form
             item.SubItems.Add(profile.IsMainAccount ? "Yes" : "");
             item.SubItems.Add(profile.IsSteam ? "Yes" : "");
             item.SubItems.Add(profile.UseOtp ? "Yes" : "");
+
+            // Check profile status
+            var status = GetProfileStatus(profile);
+            item.SubItems.Add(status);
+
+            // Highlight warnings
+            if (status != "OK")
+            {
+                item.BackColor = Color.LightYellow;
+                hasWarnings = true;
+            }
+
             item.Tag = profile;
             lstProfiles.Items.Add(item);
         }
+
+        // Show warning if any profiles have issues
+        if (hasWarnings)
+        {
+            lblStatus.Text = "Warning: Some profiles have missing folders or configs";
+            lblStatus.ForeColor = Color.DarkOrange;
+        }
+        else
+        {
+            lblStatus.Text = "Ready";
+            lblStatus.ForeColor = SystemColors.ControlText;
+        }
+    }
+
+    private string GetProfileStatus(Profile profile)
+    {
+        if (string.IsNullOrEmpty(profile.RoamingPath))
+            return "No path";
+
+        if (!Directory.Exists(profile.RoamingPath))
+            return "Missing folder";
+
+        if (!_profileService.HasAutoLoginConfig(profile.RoamingPath))
+        {
+            if (profile.DataCenterId > 0 && profile.WorldId > 0)
+                return "No AutoLogin";
+            return "OK";
+        }
+
+        return "OK";
     }
 
     private void btnBrowse_Click(object? sender, EventArgs e)
@@ -62,7 +111,7 @@ public partial class MainForm : Form
 
     private void btnAddProfile_Click(object? sender, EventArgs e)
     {
-        using var dialog = new ProfileDialog();
+        using var dialog = new ProfileDialog(_config);
         if (dialog.ShowDialog() == DialogResult.OK && dialog.Profile != null)
         {
             _config.Profiles.Add(dialog.Profile);
@@ -76,7 +125,7 @@ public partial class MainForm : Form
         if (lstProfiles.SelectedItems.Count == 0) return;
 
         var profile = (Profile)lstProfiles.SelectedItems[0].Tag!;
-        using var dialog = new ProfileDialog(profile);
+        using var dialog = new ProfileDialog(_config, profile);
         if (dialog.ShowDialog() == DialogResult.OK)
         {
             SaveConfig();
@@ -163,6 +212,17 @@ public partial class MainForm : Form
 
                 _launcherService.LaunchProfile(_config.XIVLauncherPath, profile);
                 progressBar.Value = i + 1;
+
+                // Kill mutants after launch to allow more instances
+                if (_config.AutoKillMutants && i < _config.Profiles.Count - 1)
+                {
+                    // Wait a moment for the game to create its mutants
+                    await Task.Delay(2000);
+                    lblStatus.Text = $"Killing mutants for {profile.DisplayName}...";
+                    var killed = _mutantKillerService.KillFfxivMutants();
+                    if (killed > 0)
+                        lblStatus.Text = $"Killed {killed} mutant(s)";
+                }
 
                 // If main account, wait for user confirmation
                 if (profile.IsMainAccount && i < _config.Profiles.Count - 1)
@@ -286,6 +346,32 @@ public partial class MainForm : Form
     private void numSleepTime_ValueChanged(object? sender, EventArgs e)
     {
         SaveConfig();
+    }
+
+    private void chkKillMutants_CheckedChanged(object? sender, EventArgs e)
+    {
+        SaveConfig();
+    }
+
+    private void btnKillMutants_Click(object? sender, EventArgs e)
+    {
+        lblStatus.Text = "Killing FFXIV mutants...";
+        try
+        {
+            var killed = _mutantKillerService.KillFfxivMutants();
+            lblStatus.Text = killed > 0
+                ? $"Killed {killed} mutant(s). You can now launch more instances."
+                : "No FFXIV mutants found (no game running or already cleared).";
+        }
+        catch (Exception ex)
+        {
+            lblStatus.Text = $"Error: {ex.Message}";
+            MessageBox.Show(
+                $"Failed to kill mutants: {ex.Message}\n\nYou may need to run as Administrator.",
+                "Error",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+        }
     }
 
     private void lstProfiles_DoubleClick(object? sender, EventArgs e)
