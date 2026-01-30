@@ -1,0 +1,15 @@
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/bin/Debug/net8.0-windows/XIVMultiLauncher
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/bin/Debug/net8.0-windows/XIVMultiLauncher.deps.json
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/bin/Debug/net8.0-windows/XIVMultiLauncher.runtimeconfig.json
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/bin/Debug/net8.0-windows/XIVMultiLauncher.dll
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/bin/Debug/net8.0-windows/XIVMultiLauncher.pdb
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/obj/Debug/net8.0-windows/XIVMultiLauncher.GeneratedMSBuildEditorConfig.editorconfig
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/obj/Debug/net8.0-windows/XIVMultiLauncher.AssemblyInfoInputs.cache
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/obj/Debug/net8.0-windows/XIVMultiLauncher.AssemblyInfo.cs
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/obj/Debug/net8.0-windows/XIVMultiLauncher.csproj.CoreCompileInputs.cache
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/obj/Debug/net8.0-windows/XIVMultiLauncher.sourcelink.json
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/obj/Debug/net8.0-windows/XIVMultiLauncher.dll
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/obj/Debug/net8.0-windows/refint/XIVMultiLauncher.dll
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/obj/Debug/net8.0-windows/XIVMultiLauncher.pdb
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/obj/Debug/net8.0-windows/XIVMultiLauncher.genruntimeconfig.cache
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/obj/Debug/net8.0-windows/ref/XIVMultiLauncher.dll

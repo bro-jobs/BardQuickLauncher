@@ -1,0 +1,2 @@
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/bin/Release/net8.0-windows/win-x64/publish/XIVMultiLauncher.pdb
+/home/skiros/Documents/GitHub/BardQuickLauncher/XIVMultiLauncher/bin/Release/net8.0-windows/win-x64/publish/XIVMultiLauncher.exe

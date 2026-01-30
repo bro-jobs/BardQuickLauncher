@@ -1,0 +1,198 @@
+namespace XIVMultiLauncher;
+
+partial class MainForm
+{
+    private System.ComponentModel.IContainer components = null;
+
+    protected override void Dispose(bool disposing)
+    {
+        if (disposing && (components != null))
+        {
+            components.Dispose();
+        }
+        base.Dispose(disposing);
+    }
+
+    #region Windows Form Designer generated code
+
+    private void InitializeComponent()
+    {
+        this.components = new System.ComponentModel.Container();
+
+        // Form settings
+        this.Text = "XIV Multi Launcher";
+        this.Size = new System.Drawing.Size(600, 500);
+        this.MinimumSize = new System.Drawing.Size(500, 400);
+        this.StartPosition = FormStartPosition.CenterScreen;
+
+        // Settings group
+        grpSettings = new GroupBox();
+        grpSettings.Text = "Settings";
+        grpSettings.Location = new Point(12, 12);
+        grpSettings.Size = new Size(560, 80);
+        grpSettings.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
+        lblPath = new Label();
+        lblPath.Text = "XIVLauncher Path:";
+        lblPath.Location = new Point(10, 25);
+        lblPath.AutoSize = true;
+
+        txtXIVLauncherPath = new TextBox();
+        txtXIVLauncherPath.Location = new Point(120, 22);
+        txtXIVLauncherPath.Size = new Size(350, 23);
+        txtXIVLauncherPath.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+        txtXIVLauncherPath.ReadOnly = true;
+
+        btnBrowse = new Button();
+        btnBrowse.Text = "Browse...";
+        btnBrowse.Location = new Point(476, 21);
+        btnBrowse.Size = new Size(75, 25);
+        btnBrowse.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        btnBrowse.Click += btnBrowse_Click;
+
+        lblSleep = new Label();
+        lblSleep.Text = "Delay between launches:";
+        lblSleep.Location = new Point(10, 52);
+        lblSleep.AutoSize = true;
+
+        numSleepTime = new NumericUpDown();
+        numSleepTime.Location = new Point(160, 50);
+        numSleepTime.Size = new Size(60, 23);
+        numSleepTime.Minimum = 1;
+        numSleepTime.Maximum = 60;
+        numSleepTime.Value = 10;
+        numSleepTime.ValueChanged += numSleepTime_ValueChanged;
+
+        lblSeconds = new Label();
+        lblSeconds.Text = "seconds";
+        lblSeconds.Location = new Point(226, 52);
+        lblSeconds.AutoSize = true;
+
+        grpSettings.Controls.Add(lblPath);
+        grpSettings.Controls.Add(txtXIVLauncherPath);
+        grpSettings.Controls.Add(btnBrowse);
+        grpSettings.Controls.Add(lblSleep);
+        grpSettings.Controls.Add(numSleepTime);
+        grpSettings.Controls.Add(lblSeconds);
+
+        // Profiles group
+        grpProfiles = new GroupBox();
+        grpProfiles.Text = "Profiles";
+        grpProfiles.Location = new Point(12, 98);
+        grpProfiles.Size = new Size(560, 280);
+        grpProfiles.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
+        lstProfiles = new ListView();
+        lstProfiles.Location = new Point(10, 22);
+        lstProfiles.Size = new Size(450, 210);
+        lstProfiles.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+        lstProfiles.View = View.Details;
+        lstProfiles.FullRowSelect = true;
+        lstProfiles.GridLines = true;
+        lstProfiles.Columns.Add("Display Name", 140);
+        lstProfiles.Columns.Add("Account", 120);
+        lstProfiles.Columns.Add("Main", 45);
+        lstProfiles.Columns.Add("Steam", 50);
+        lstProfiles.Columns.Add("OTP", 45);
+        lstProfiles.DoubleClick += lstProfiles_DoubleClick;
+
+        btnAddProfile = new Button();
+        btnAddProfile.Text = "Add";
+        btnAddProfile.Location = new Point(466, 22);
+        btnAddProfile.Size = new Size(85, 28);
+        btnAddProfile.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        btnAddProfile.Click += btnAddProfile_Click;
+
+        btnEditProfile = new Button();
+        btnEditProfile.Text = "Edit";
+        btnEditProfile.Location = new Point(466, 56);
+        btnEditProfile.Size = new Size(85, 28);
+        btnEditProfile.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        btnEditProfile.Click += btnEditProfile_Click;
+
+        btnRemoveProfile = new Button();
+        btnRemoveProfile.Text = "Remove";
+        btnRemoveProfile.Location = new Point(466, 90);
+        btnRemoveProfile.Size = new Size(85, 28);
+        btnRemoveProfile.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        btnRemoveProfile.Click += btnRemoveProfile_Click;
+
+        btnMoveUp = new Button();
+        btnMoveUp.Text = "Move Up";
+        btnMoveUp.Location = new Point(466, 134);
+        btnMoveUp.Size = new Size(85, 28);
+        btnMoveUp.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        btnMoveUp.Click += btnMoveUp_Click;
+
+        btnMoveDown = new Button();
+        btnMoveDown.Text = "Move Down";
+        btnMoveDown.Location = new Point(466, 168);
+        btnMoveDown.Size = new Size(85, 28);
+        btnMoveDown.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+        btnMoveDown.Click += btnMoveDown_Click;
+
+        btnLaunchSelected = new Button();
+        btnLaunchSelected.Text = "Launch";
+        btnLaunchSelected.Location = new Point(10, 240);
+        btnLaunchSelected.Size = new Size(100, 30);
+        btnLaunchSelected.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+        btnLaunchSelected.Click += btnLaunchSelected_Click;
+
+        btnLaunchAll = new Button();
+        btnLaunchAll.Text = "Launch All";
+        btnLaunchAll.Location = new Point(360, 240);
+        btnLaunchAll.Size = new Size(100, 30);
+        btnLaunchAll.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+        btnLaunchAll.Click += btnLaunchAll_Click;
+
+        grpProfiles.Controls.Add(lstProfiles);
+        grpProfiles.Controls.Add(btnAddProfile);
+        grpProfiles.Controls.Add(btnEditProfile);
+        grpProfiles.Controls.Add(btnRemoveProfile);
+        grpProfiles.Controls.Add(btnMoveUp);
+        grpProfiles.Controls.Add(btnMoveDown);
+        grpProfiles.Controls.Add(btnLaunchSelected);
+        grpProfiles.Controls.Add(btnLaunchAll);
+
+        // Status bar
+        progressBar = new ProgressBar();
+        progressBar.Location = new Point(12, 390);
+        progressBar.Size = new Size(450, 23);
+        progressBar.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
+        lblStatus = new Label();
+        lblStatus.Text = "Ready";
+        lblStatus.Location = new Point(12, 420);
+        lblStatus.Size = new Size(560, 20);
+        lblStatus.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+
+        // Add controls to form
+        this.Controls.Add(grpSettings);
+        this.Controls.Add(grpProfiles);
+        this.Controls.Add(progressBar);
+        this.Controls.Add(lblStatus);
+    }
+
+    #endregion
+
+    private GroupBox grpSettings;
+    private Label lblPath;
+    private TextBox txtXIVLauncherPath;
+    private Button btnBrowse;
+    private Label lblSleep;
+    private NumericUpDown numSleepTime;
+    private Label lblSeconds;
+
+    private GroupBox grpProfiles;
+    private ListView lstProfiles;
+    private Button btnAddProfile;
+    private Button btnEditProfile;
+    private Button btnRemoveProfile;
+    private Button btnMoveUp;
+    private Button btnMoveDown;
+    private Button btnLaunchSelected;
+    private Button btnLaunchAll;
+
+    private ProgressBar progressBar;
+    private Label lblStatus;
+}
