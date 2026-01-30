@@ -103,24 +103,24 @@ public static class GameData
         new(91, "Balmung", 8),
 
         // Dynamis (11)
+        new(404, "Marilith", 11),
+        new(405, "Seraph", 11),
         new(406, "Halicarnassus", 11),
         new(407, "Maduin", 11),
-        new(408, "Marilith", 11),
-        new(409, "Seraph", 11),
-        new(411, "Cuchulainn", 11),
-        new(412, "Kraken", 11),
-        new(413, "Rafflesia", 11),
-        new(414, "Golem", 11),
+        new(408, "Cuchulainn", 11),
+        new(409, "Kraken", 11),
+        new(410, "Rafflesia", 11),
+        new(411, "Golem", 11),
 
         // Chaos (6)
         new(39, "Omega", 6),
+        new(71, "Moogle", 6),
         new(80, "Cerberus", 6),
         new(83, "Louisoix", 6),
-        new(85, "Moogle", 6),
+        new(85, "Spriggan", 6),
         new(97, "Ragnarok", 6),
         new(400, "Sagittarius", 6),
         new(401, "Phantom", 6),
-        new(404, "Alpha", 6),
 
         // Light (7)
         new(33, "Twintania", 7),
@@ -129,8 +129,8 @@ public static class GameData
         new(56, "Phoenix", 7),
         new(66, "Odin", 7),
         new(67, "Shiva", 7),
-        new(402, "Raiden", 7),
-        new(403, "Sephirot", 7), // Assuming exists
+        new(402, "Alpha", 7),
+        new(403, "Raiden", 7),
 
         // Shadow (12)
         // Add worlds when available
